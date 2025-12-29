@@ -93,7 +93,7 @@ def xg_boost(
     print(classification_report(y_test, y_pred))
     return y_pred, y_prob
 
-def rn(
+def rn_train(
     X_train,
     X_test,
     y_train,
@@ -132,7 +132,23 @@ def rn(
         class_weight=class_weights,
         verbose=1
     )
-    # Evaluation :
+    return model
+
+def rn_evaluate(
+    model,
+    seuil,
+    X_test
+):
     y_prob = model.predict(X_test).flatten() 
-    y_pred = (y_prob >= 0.3).astype(int) 
+    y_pred = (y_prob >= seuil).astype(int)
     return y_pred, y_prob
+
+def find_best_threshold(
+    y_nn_test,
+    y_nn_prob
+):
+    precision, recall, thresholds = precision_recall_curve(y_nn_test, y_nn_prob)
+    f1_scores = 2 * (precision * recall) / (precision + recall + 1e-8)
+    best_idx = f1_scores.argmax()
+    best_threshold = thresholds[best_idx]
+    return best_threshold
