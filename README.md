@@ -1,1 +1,1 @@
-Lancer le notebook dans un environnement équipé de tensorflow.
+Lancer le notebook dans un environnement équipé de tensorflow, de statsmodel et de xgboost.
